@@ -1,1 +1,1 @@
-fetch('api/load');
+fetch('/api/load');
