@@ -41,13 +41,56 @@
             position: relative;
             z-index: 2;
         }
-
-        .top-bar {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 20px;
+        
+        .hero-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out;
         }
-
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(45deg, #fff, #64b5f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .bio-text {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .links-section {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
         .link-button {
             display: inline-block;
             padding: 12px 30px;
@@ -66,6 +109,56 @@
             background: linear-gradient(45deg, #64b5f6, #42a5f5);
         }
         
+        /* Life Stories Section */
+        .stories-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.8s ease-out 0.1s both;
+        }
+        
+        .section-title {
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+        
+        .story-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #42a5f5;
+            transition: all 0.3s ease;
+        }
+        
+        .story-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
+        }
+        
+        .story-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .story-text {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            font-size: 1.05em;
+        }
+        
+        .story-placeholder {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+            padding: 40px 20px;
+        }
+        
         /* Gallery Section */
         .gallery-section {
             background: rgba(255, 255, 255, 0.1);
@@ -74,19 +167,7 @@
             padding: 40px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            animation: fadeInUp 0.8s ease-out both;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .section-title {
-            font-size: 2em;
-            text-align: center;
-            margin-bottom: 30px;
-            color: #fff;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
         }
         
         .gallery-grid {
@@ -102,11 +183,10 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             overflow: hidden;
+            aspect-ratio: 1;
             cursor: pointer;
             transition: all 0.3s ease;
             border: 2px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            flex-direction: column;
         }
         
         .gallery-item:hover {
@@ -117,15 +197,13 @@
         
         .gallery-item img {
             width: 100%;
-            flex: 1;
-            min-height: 0;
-            aspect-ratio: 1;
+            height: 100%;
             object-fit: cover;
             transition: transform 0.3s ease;
-            display: block;
         }
         
         .gallery-item:hover img {
+            transform: scale(1.1);
         }
         
         /* Modal */
@@ -174,20 +252,115 @@
             color: #64b5f6;
         }
         
+        /* Responsive Design */
         @media (max-width: 768px) {
-            body { padding: 10px; }
-            .gallery-section { padding: 30px 20px; border-radius: 15px; }
-            .section-title { font-size: 1.8em; }
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
-            .close { top: 10px; right: 20px; font-size: 30px; }
+            body {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2.5em;
+                letter-spacing: 1px;
+            }
+            
+            .hero-section,
+            .stories-section,
+            .gallery-section {
+                padding: 30px 20px;
+                border-radius: 15px;
+            }
+            
+            .section-title {
+                font-size: 1.8em;
+            }
+            
+            .story-item {
+                padding: 20px;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .close {
+                top: 10px;
+                right: 20px;
+                font-size: 30px;
+                background: rgba(0, 0, 0, 0.5);
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .bio-text {
+                font-size: 1em;
+            }
+            
+            .links-section {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .link-button {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .section-title {
+                font-size: 1.5em;
+            }
+            
+            .story-item {
+                padding: 15px;
+            }
+            
+            .gallery-grid {
+                gap: 10px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1>Welcome</h1>
+            <p class="bio-text">
+                Lukas
+            </p>
+            <div class="links-section">
+                <a href="#gallery" class="link-button">View Gallery</a>
+                <a href="upload.html" class="link-button">Upload Photos</a>
+            </div>
+        </div>
+        
+        <!-- Life Stories Section -->
+        <div class="stories-section" id="stories">
+            <h2 class="section-title">Life Stories</h2>
+            <div class="stories-container">
+                <div class="story-placeholder">
+                    I was walking down the stairs and i heard my Sister's boyfriend say "Keep Going", I then walked down a bit more and then heard her say "I can't", this was very sus and i wont want it to happen again.
+                </div>
+            </div>
+        </div>
+        
         <!-- Gallery Section -->
         <div class="gallery-section" id="gallery">
             <h2 class="section-title">Photo Gallery</h2>
-            <div class="gallery-grid"></div>
+            <div class="gallery-grid">
+                <!-- Gallery items will be loaded dynamically -->
+            </div>
         </div>
     </div>
     
@@ -198,51 +371,70 @@
     </div>
     
 <script>
+    // Default images
     const defaultImages = [
+            { src: 'https://i.ibb.co/zh1NRP38/IMG-2836.jpg', alt: 'weawwy' },
+            { src: 'https://i.ibb.co/xK99nRsr/IMG-3156.jpg', alt: 'Smile' },
+            { src: 'https://i.ibb.co/pvdWqvhh/IMG-3188.jpg', alt: 'Veggies' },
+            { src: 'https://i.ibb.co/TxC1q8p5/IMG-1759-jpeg.jpg', alt: 'Locked in' },
+            { src: 'https://i.ibb.co/wNBqhd92/IMG-1749-jpeg.jpg', alt: 'Geeked' },
+            { src: 'https://i.ibb.co/pSZjn0W/IMG-1128-jpeg.jpg', alt: 'Wingin' },
+            { src: 'https://i.ibb.co/KcQRqg17/IMG-0055-jpeg.jpg', alt: 'Shower?' },
+            { src: 'https://i.ibb.co/tTzhNrzF/IMG-0008-jpeg.jpg', alt: 'prime butter' },
+            { src: 'https://i.ibb.co/jPdFcCjh/IMG-0116-jpeg.jpg', alt: 'My dream' },
+            { src: 'https://i.ibb.co/fVXM5yRZ/IMG-0081-png.png', alt: 'Hit the giddy' },
+            { src: 'https://i.ibb.co/vCV60nHM/IMG-1542-jpeg.jpg', alt: 'What the sus' },
+            { src: 'https://i.ibb.co/przyNcVW/IMG-1523-jpeg.jpg', alt: 'Who let the dogs out' },
+            { src: 'https://i.ibb.co/tM5sTGVL/IMG-1526-jpeg.jpg', alt: 'Feeling cute' },
+            { src: 'https://i.ibb.co/xtRYKn6v/IMG-1192-jpeg.jpg', alt: 'My emo phase' },
+            { src: 'https://i.ibb.co/bGFtt3t/IMG-1177-jpeg.jpg', alt: 'luh crashout' },
+            { src: 'https://i.ibb.co/qYc5J12r/IMG-0879-jpeg.jpg', alt: 'Goodest boy' },
+            { src: 'https://i.ibb.co/KckHBT6v/D6-C4-DA03-7540-408-A-A003-8-D43638906-B3-png.png', alt: 'Young Butter' },
+            { src: 'https://i.ibb.co/kstZZbQW/IMG-0758-jpeg.jpg', alt: 'Alcoholic butter' },
+            { src: 'https://i.ibb.co/XrTR4sVv/IMG-0928-jpeg.jpg', alt: 'Goodnight Everyone' },
+            { src: 'https://i.ibb.co/rKfF3S7c/IMG-0434-jpeg.jpg', alt: 'my pb is tiny' },
+            { src: 'https://i.ibb.co/4RmhSYD9/IMG-1058-jpeg.jpg', alt: 'Female butter' },
+            { src: 'https://i.ibb.co/cXt1XGFm/IMG-1015-jpeg.jpg', alt: 'Autism' },
+            { src: 'https://i.ibb.co/xq2zkdp8/IMG-4720-jpeg.jpg', alt: 'Hey..' },
+            { src: 'https://i.ibb.co/SDSr0nqj/IMG-1111-png.png', alt: 'is this me?' },
+            { src: 'https://i.ibb.co/VYpZx5J0/IMG-0178-jpeg.jpg', alt: 'Hey Huzz..' },
+            { src: 'https://i.ibb.co/7JV8q0Q4/IMG-1174-jpeg.jpg', alt: 'cutie pa tootie' },
+            { src: 'https://i.ibb.co/1fknHSY9/IMG-3992-jpeg.jpg', alt: 'gigglish' },
+            { src: 'https://i.ibb.co/5XFNxyCc/IMG-3993-jpeg.jpg', alt: 'alchoholic x2' }
         ];
 
-    function loadGallery() {
-        const galleryGrid = document.querySelector('.gallery-grid');
-        galleryGrid.innerHTML = '';
+    // Load gallery
+function loadGallery() {
+    const galleryGrid = document.querySelector('.gallery-grid');
+    galleryGrid.innerHTML = '';
 
-        defaultImages.forEach((image, index) => {
-            const galleryItem = document.createElement('div');
-            galleryItem.className = 'gallery-item';
-            galleryItem.onclick = function() { openModal(this); };
+    defaultImages.forEach((image, index) => {
+        const galleryItem = document.createElement('div');
+        galleryItem.className = 'gallery-item';
+        galleryItem.onclick = function() { openModal(this); };
 
-            const caption = document.createElement('div');
-            caption.textContent = image.alt || `Gallery Image ${index + 1}`;
-            caption.style.textAlign = 'center';
-            caption.style.padding = '8px';
-            caption.style.fontSize = '14px';
-            caption.style.fontWeight = 'bold';
-            caption.style.background = 'rgba(0,0,0,0.5)';
-            caption.style.color = 'white';
+        // Create caption (ALT TEXT ABOVE IMAGE)
+        const caption = document.createElement('div');
+        caption.textContent = image.alt || `Gallery Image ${index + 1}`;
+        caption.style.textAlign = 'center';
+        caption.style.padding = '8px';
+        caption.style.fontSize = '14px';
+        caption.style.fontWeight = 'bold';
+        caption.style.background = 'rgba(0,0,0,0.5)';
+        caption.style.color = 'white';
 
-            const imgWrapper = document.createElement('div');
-            imgWrapper.style.overflow = 'hidden';
-            imgWrapper.style.flex = '1';
-            imgWrapper.style.minHeight = '0';
+        const img = document.createElement('img');
+        img.src = image.src;
+        img.alt = image.alt || `Gallery Image ${index + 1}`;
+        img.loading = 'lazy';
 
-            const img = document.createElement('img');
-            img.src = image.src;
-            img.alt = image.alt || `Gallery Image ${index + 1}`;
-            img.loading = 'lazy';
-            img.style.width = '100%';
-            img.style.height = '100%';
-            img.style.objectFit = 'cover';
-            img.style.display = 'block';
-            img.style.transition = 'transform 0.3s ease';
+        // Add caption first (so it appears above image)
+        galleryItem.appendChild(caption);
+        galleryItem.appendChild(img);
 
-            galleryItem.addEventListener('mouseenter', () => img.style.transform = 'scale(1.1)');
-            galleryItem.addEventListener('mouseleave', () => img.style.transform = 'scale(1)');
-
-            imgWrapper.appendChild(img);
-            galleryItem.appendChild(imgWrapper);
-            galleryItem.appendChild(caption);
-            galleryGrid.appendChild(galleryItem);
-        });
-    }
+        galleryGrid.appendChild(galleryItem);
+    });
+}
 
     function openModal(element) {
         const img = element.querySelector('img');
@@ -258,6 +450,21 @@
         document.getElementById('imageModal').style.display = 'none';
     }
 
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Load gallery on page load
     document.addEventListener('DOMContentLoaded', loadGallery);
 </script>
 </body>
