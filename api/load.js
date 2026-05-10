@@ -1,7 +1,7 @@
 // api/load.js - Backend API for gallery management
 // This runs on your server, not in the browser
 
-const GITHUB_TOKEN = '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'; // Replace with your actual GitHub token
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN; // Replace with your actual GitHub token
 const GITHUB_OWNER = 'mitalt735'; // Replace with your GitHub username
 const GITHUB_REPO = 'website'; // Replace with your repo name
 const FILE_PATH = 'index.html'; // Path to index.html in your repo
