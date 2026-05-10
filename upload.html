@@ -3,454 +3,609 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Photos - Lukas Tonkin</title>
+    <title>Upload — Lukas Tonkin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-deep:       #0a110d;
+            --bg-mid:        #0f1a12;
+            --bg-card:       #131f16;
+            --border:        rgba(74, 130, 74, 0.18);
+            --border-bright: rgba(100, 180, 100, 0.35);
+            --green-1:       #2d6a2d;
+            --green-2:       #3d8b3d;
+            --green-accent:  #5aad5a;
+            --green-bright:  #7ecf7e;
+            --text-primary:  #e8f0e8;
+            --text-muted:    rgba(200, 220, 200, 0.6);
+            --text-dim:      rgba(160, 190, 160, 0.45);
+            --error:         rgba(220, 80, 80, 0.85);
+            --success:       rgba(80, 180, 100, 0.85);
         }
-        
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
             min-height: 100vh;
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 20px;
-            position: relative;
+            overflow-x: hidden;
         }
-        
-        .container {
-            max-width: 800px;
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -20%;
+            right: -10%;
+            width: 55%;
+            height: 55%;
+            background: radial-gradient(ellipse, rgba(45, 106, 45, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .page-wrapper {
+            max-width: 720px;
             margin: 0 auto;
+            padding: 60px 30px 80px;
             position: relative;
-            z-index: 2;
+            z-index: 1;
         }
-        
-        .upload-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+        /* ── HEADER ── */
+        header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 64px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--border);
+            animation: fadeUp 0.6s ease both;
+        }
+
+        .name-block h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            line-height: 0.95;
+            letter-spacing: -0.5px;
+        }
+
+        .name-block h1 span {
+            display: block;
+            color: var(--green-bright);
+        }
+
+        .name-block .tagline {
+            margin-top: 14px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover { color: var(--green-bright); }
+
+        .back-link svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* ── SECTION LABEL ── */
+        .section-label {
+            font-size: 0.72rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--green-accent);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ── DROP ZONE ── */
+        .drop-zone {
+            border: 1px dashed var(--border-bright);
+            border-radius: 2px;
+            padding: 64px 40px;
             text-align: center;
-            animation: fadeInUp 0.8s ease-out;
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #fff, #64b5f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .upload-area {
-            border: 3px dashed rgba(255, 255, 255, 0.3);
-            border-radius: 15px;
-            padding: 40px;
-            margin: 30px 0;
-            background: rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
             cursor: pointer;
+            transition: background 0.3s, border-color 0.3s;
+            background: var(--bg-card);
+            position: relative;
+            animation: fadeUp 0.6s 0.1s ease both;
         }
-        
-        .upload-area:hover,
-        .upload-area.drag-over {
-            border-color: #64b5f6;
-            background: rgba(100, 181, 246, 0.1);
+
+        .drop-zone:hover,
+        .drop-zone.drag-over {
+            background: rgba(45, 106, 45, 0.08);
+            border-color: var(--green-accent);
         }
-        
-        .upload-icon {
-            font-size: 4em;
-            margin-bottom: 20px;
-        }
-        
-        .upload-text {
-            font-size: 1.2em;
-            margin-bottom: 10px;
-        }
-        
-        .upload-subtext {
-            font-size: 0.9em;
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        #fileInput {
+
+        .drop-zone input[type="file"] {
             display: none;
         }
-        
-        .button {
-            display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(45deg, #42a5f5, #1e88e5);
-            color: white;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            margin: 10px;
-            border: none;
-            cursor: pointer;
-            font-size: 1em;
+
+        .drop-icon {
+            width: 48px;
+            height: 48px;
+            stroke: var(--green-accent);
+            fill: none;
+            stroke-width: 1.5;
+            margin: 0 auto 20px;
+            display: block;
         }
-        
-        .button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-            background: linear-gradient(45deg, #64b5f6, #42a5f5);
+
+        .drop-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: var(--text-primary);
         }
-        
+
+        .drop-sub {
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            line-height: 1.7;
+        }
+
+        .drop-sub strong {
+            color: var(--green-bright);
+            font-weight: 500;
+        }
+
+        /* ── PREVIEW GRID ── */
         .preview-section {
             display: none;
-            margin-top: 30px;
+            animation: fadeUp 0.4s ease both;
         }
-        
+
         .preview-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 3px;
+            margin-bottom: 28px;
         }
-        
+
         .preview-item {
             position: relative;
-            border-radius: 10px;
-            overflow: hidden;
             aspect-ratio: 1;
+            background: var(--bg-card);
+            overflow: hidden;
         }
-        
+
         .preview-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
+            filter: brightness(0.85);
+            transition: filter 0.25s;
         }
-        
+
+        .preview-item:hover img { filter: brightness(1); }
+
         .preview-item .remove-btn {
             position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(255, 0, 0, 0.8);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            top: 6px;
+            right: 6px;
+            background: rgba(0,0,0,0.65);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.8);
+            border-radius: 2px;
+            width: 26px;
+            height: 26px;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.3s ease;
+            transition: background 0.2s, color 0.2s;
+            line-height: 1;
         }
-        
+
         .preview-item .remove-btn:hover {
-            background: rgba(255, 0, 0, 1);
+            background: rgba(200,60,60,0.8);
+            color: #fff;
         }
-        
-        .status-message {
-            margin: 20px 0;
-            padding: 15px;
-            border-radius: 10px;
+
+        /* ── ACTIONS ── */
+        .actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 28px;
+            border-radius: 2px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            transition: background 0.25s, transform 0.15s;
+            text-decoration: none;
+        }
+
+        .btn:active { transform: scale(0.98); }
+
+        .btn-primary {
+            background: var(--green-1);
+            color: #fff;
+        }
+
+        .btn-primary:hover { background: var(--green-2); }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid var(--border-bright);
+            color: var(--text-muted);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255,255,255,0.04);
+            color: var(--text-primary);
+            border-color: rgba(255,255,255,0.25);
+        }
+
+        .btn svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* ── STATUS BAR ── */
+        .status-bar {
             display: none;
+            margin-top: 20px;
+            padding: 14px 18px;
+            border-radius: 2px;
+            font-size: 0.85rem;
+            letter-spacing: 0.03em;
+            border-left: 3px solid;
         }
-        
-        .status-message.success {
-            background: rgba(76, 175, 80, 0.2);
-            border: 1px solid rgba(76, 175, 80, 0.5);
+
+        .status-bar.success {
+            background: rgba(45, 106, 45, 0.15);
+            border-color: var(--green-accent);
+            color: var(--green-bright);
         }
-        
-        .status-message.error {
-            background: rgba(244, 67, 54, 0.2);
-            border: 1px solid rgba(244, 67, 54, 0.5);
+
+        .status-bar.error {
+            background: rgba(180, 50, 50, 0.12);
+            border-color: rgba(200, 80, 80, 0.6);
+            color: rgba(240, 140, 140, 0.9);
         }
-        
-        .info-box {
-            background: rgba(255, 193, 7, 0.1);
-            border: 1px solid rgba(255, 193, 7, 0.3);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 30px 0;
-            text-align: left;
+
+        /* ── PROGRESS ── */
+        .progress-wrap {
+            display: none;
+            margin-top: 20px;
         }
-        
-        .info-box h3 {
-            margin-bottom: 10px;
-            color: #ffc107;
+
+        .progress-label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            letter-spacing: 0.06em;
+            margin-bottom: 8px;
         }
-        
-        .info-box p {
-            margin: 5px 0;
-            font-size: 0.9em;
-            line-height: 1.6;
+
+        .progress-track {
+            height: 2px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
         }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .upload-section {
-                padding: 30px 20px;
+
+        .progress-fill {
+            height: 100%;
+            background: var(--green-accent);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            margin-top: 70px;
+            padding-top: 28px;
+            border-top: 1px solid var(--border);
+            font-size: 0.74rem;
+            color: var(--text-dim);
+            letter-spacing: 0.06em;
+            text-align: center;
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 600px) {
+            .page-wrapper { padding: 36px 18px 60px; }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+                margin-bottom: 44px;
             }
-            
-            .preview-grid {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            }
+
+            .drop-zone { padding: 44px 20px; }
+
+            .actions { flex-direction: column; }
+
+            .btn { justify-content: center; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="upload-section">
-            <h1>Upload Photos</h1>
-            
-            <div class="upload-area" id="uploadArea">
-                <div class="upload-icon">ð¸</div>
-                <div class="upload-text">Drop photos here or click to browse</div>
-                <input type="file" id="fileInput" multiple accept="image/*">
-            </div>
-            
-            <div class="preview-section" id="previewSection">
-                <h3>Selected Photos</h3>
-                <div class="preview-grid" id="previewGrid"></div>
-                <button class="button" onclick="uploadPhotos()">Upload to Gallery</button>
-                <button class="button" onclick="clearSelection()">Clear Selection</button>
-            </div>
-            
-            <div class="status-message" id="statusMessage"></div>
-            
-            <div style="margin-top: 30px;">
-                <a href="index.html" class="button">Back to Gallery</a>
+
+<div class="page-wrapper">
+
+    <header>
+        <div class="name-block">
+            <h1>Lukas<span>Tonkin</span></h1>
+            <p class="tagline">Upload Photos</p>
+        </div>
+        <a href="index.html" class="back-link">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+            Back to gallery
+        </a>
+    </header>
+
+    <!-- Drop Zone -->
+    <p class="section-label">Select Files</p>
+    <div class="drop-zone" id="dropZone">
+        <svg class="drop-icon" viewBox="0 0 24 24">
+            <polyline points="16 16 12 12 8 16"/>
+            <line x1="12" y1="12" x2="12" y2="21"/>
+            <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
+        </svg>
+        <p class="drop-title">Drop photos here</p>
+        <p class="drop-sub">or click to browse &nbsp;&mdash;&nbsp; <strong>JPG, PNG, WEBP</strong><br>Max 5 MB per file</p>
+        <input type="file" id="fileInput" multiple accept="image/*">
+    </div>
+
+    <!-- Preview -->
+    <div class="preview-section" id="previewSection" style="margin-top: 40px;">
+        <p class="section-label">Selected <span id="selectedCount">0</span> photo(s)</p>
+        <div class="preview-grid" id="previewGrid"></div>
+
+        <div class="actions">
+            <button class="btn btn-primary" onclick="uploadPhotos()">
+                <svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                Upload to Gallery
+            </button>
+            <button class="btn btn-ghost" onclick="clearSelection()">Clear selection</button>
+        </div>
+
+        <div class="progress-wrap" id="progressWrap">
+            <p class="progress-label" id="progressLabel">Uploading...</p>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
             </div>
         </div>
+
+        <div class="status-bar" id="statusBar"></div>
     </div>
-    
-    <script>
-        let selectedFiles = [];
-        
-        // Initialize upload area
-        const uploadArea = document.getElementById('uploadArea');
-        const fileInput = document.getElementById('fileInput');
-        const previewSection = document.getElementById('previewSection');
-        const previewGrid = document.getElementById('previewGrid');
-        const statusMessage = document.getElementById('statusMessage');
-        
-        // Click to select files
-        uploadArea.addEventListener('click', () => {
-            fileInput.click();
-        });
-        
-        // File input change
-        fileInput.addEventListener('change', (e) => {
-            handleFiles(e.target.files);
-        });
-        
-        // Drag and drop
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.classList.add('drag-over');
-        });
-        
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('drag-over');
-        });
-        
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('drag-over');
-            handleFiles(e.dataTransfer.files);
-        });
-        
-        // Handle selected files
-        function handleFiles(files) {
-            const validFiles = Array.from(files).filter(file => {
-                if (!file.type.startsWith('image/')) {
-                    showStatus('Only image files are allowed', 'error');
-                    return false;
-                }
-                if (file.size > 5 * 1024 * 1024) {
-                    showStatus(`${file.name} is too large (max 5MB)`, 'error');
-                    return false;
-                }
-                return true;
-            });
-            
-            if (validFiles.length > 0) {
-                selectedFiles = [...selectedFiles, ...validFiles];
-                updatePreview();
+
+    <footer>Lukas Tonkin &mdash; Gallery</footer>
+</div>
+
+<script>
+    const IMGBB_API_KEY = 'd78c0a0f2121c9246f775961d0cb0256';
+    let selectedFiles = [];
+
+    const dropZone    = document.getElementById('dropZone');
+    const fileInput   = document.getElementById('fileInput');
+    const previewSec  = document.getElementById('previewSection');
+    const previewGrid = document.getElementById('previewGrid');
+    const statusBar   = document.getElementById('statusBar');
+    const progressWrap = document.getElementById('progressWrap');
+    const progressFill = document.getElementById('progressFill');
+    const progressLabel = document.getElementById('progressLabel');
+    const selectedCount = document.getElementById('selectedCount');
+
+    dropZone.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', e => handleFiles(e.target.files));
+
+    dropZone.addEventListener('dragover', e => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+    });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+    dropZone.addEventListener('drop', e => {
+        e.preventDefault();
+        dropZone.classList.remove('drag-over');
+        handleFiles(e.dataTransfer.files);
+    });
+
+    function handleFiles(files) {
+        const valid = Array.from(files).filter(f => {
+            if (!f.type.startsWith('image/')) {
+                showStatus('Only image files are allowed.', 'error');
+                return false;
             }
+            if (f.size > 5 * 1024 * 1024) {
+                showStatus(`${f.name} exceeds the 5 MB limit.`, 'error');
+                return false;
+            }
+            return true;
+        });
+        if (valid.length) {
+            selectedFiles = [...selectedFiles, ...valid];
+            renderPreview();
         }
-        
-        // Update preview
-        function updatePreview() {
-            if (selectedFiles.length > 0) {
-                previewSection.style.display = 'block';
-                previewGrid.innerHTML = '';
-                
-                selectedFiles.forEach((file, index) => {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        const previewItem = document.createElement('div');
-                        previewItem.className = 'preview-item';
-                        previewItem.innerHTML = `
-                            <img src="${e.target.result}" alt="${file.name}">
-                            <button class="remove-btn" onclick="removeFile(${index})">Ã</button>
-                        `;
-                        previewGrid.appendChild(previewItem);
-                    };
-                    reader.readAsDataURL(file);
+    }
+
+    function renderPreview() {
+        previewGrid.innerHTML = '';
+        selectedCount.textContent = selectedFiles.length;
+
+        if (selectedFiles.length === 0) {
+            previewSec.style.display = 'none';
+            return;
+        }
+
+        previewSec.style.display = 'block';
+
+        selectedFiles.forEach((file, i) => {
+            const reader = new FileReader();
+            reader.onload = e => {
+                const item = document.createElement('div');
+                item.className = 'preview-item';
+                item.innerHTML = `
+                    <img src="${e.target.result}" alt="${file.name}">
+                    <button class="remove-btn" onclick="removeFile(${i})">&times;</button>
+                `;
+                previewGrid.appendChild(item);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function removeFile(i) {
+        selectedFiles.splice(i, 1);
+        renderPreview();
+    }
+
+    function clearSelection() {
+        selectedFiles = [];
+        fileInput.value = '';
+        renderPreview();
+        hideStatus();
+    }
+
+    async function uploadPhotos() {
+        if (!selectedFiles.length) {
+            showStatus('No photos selected.', 'error');
+            return;
+        }
+
+        progressWrap.style.display = 'block';
+        hideStatus();
+
+        try {
+            const uploaded = [];
+
+            for (let i = 0; i < selectedFiles.length; i++) {
+                const pct = Math.round((i / selectedFiles.length) * 100);
+                progressFill.style.width = pct + '%';
+                progressLabel.textContent = `Uploading ${i + 1} of ${selectedFiles.length}...`;
+
+                const url = await uploadToImgBB(selectedFiles[i]);
+                uploaded.push({
+                    src: url,
+                    alt: selectedFiles[i].name.replace(/\.[^/.]+$/, ''),
+                    uploadDate: new Date().toISOString()
                 });
-            } else {
-                previewSection.style.display = 'none';
             }
-        }
-        
-        // Remove file from selection
-        function removeFile(index) {
-            selectedFiles.splice(index, 1);
-            updatePreview();
-        }
-        
-        // Clear all selections
-        function clearSelection() {
-            selectedFiles = [];
-            fileInput.value = '';
-            updatePreview();
-        }
-        
-        // Upload photos
-        async function uploadPhotos() {
-            if (selectedFiles.length === 0) {
-                showStatus('No photos selected', 'error');
-                return;
-            }
-            
-            // Check if API key is configured
-            if (IMGBB_API_KEY === 'd78c0a0f2121c9246f775961d0cb0256') {
-                showStatus('Please configure your ImgBB API key first! See instructions below.', 'error');
-                return;
-            }
-            
-            showStatus('Uploading photos to image host...', 'success');
-            
-            try {
-                // Upload each image to ImgBB first to get shorter URLs
-                const uploadedImages = [];
-                
-                for (let i = 0; i < selectedFiles.length; i++) {
-                    const file = selectedFiles[i];
-                    showStatus(`Uploading image ${i + 1} of ${selectedFiles.length}...`, 'success');
-                    
-                    // Upload to ImgBB
-                    const imageUrl = await uploadToImgBB(file);
-                    
-                    uploadedImages.push({
-                        src: imageUrl,
-                        alt: file.name.replace(/\.[^/.]+$/, ""), // Remove file extension
-                        uploadDate: new Date().toISOString()
-                    });
-                }
-                
-                showStatus('Saving to gallery...', 'success');
-                
-                // Now upload the URLs to our API
-                const response = await fetch('/api/load', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ images: uploadedImages })
-                });
-                
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'Failed to save images to gallery');
-                }
-                
-                const result = await response.json();
-                console.log('Gallery update successful:', result);
-                
-                showStatus(`Successfully uploaded ${selectedFiles.length} photos!`, 'success');
-                
-                // Clear selection after successful upload
-                setTimeout(() => {
-                    clearSelection();
-                    // Redirect to gallery after 2 seconds
-                    setTimeout(() => {
-                        window.location.href = 'o.html';
-                    }, 2000);
-                }, 1000);
-            } catch (error) {
-                showStatus('Upload failed: ' + error.message, 'error');
-                console.error('Upload error:', error);
-            }
-        }
-        
-        // ImgBB API key - configured and ready to use!
-        const IMGBB_API_KEY = 'd78c0a0f2121c9246f775961d0cb0256';
-        
-        // Function to upload image to ImgBB
-        async function uploadToImgBB(file) {
-            
-            // Convert file to base64 for ImgBB
-            const base64 = await new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    // Remove the data:image/...;base64, prefix
-                    const base64Data = e.target.result.split(',')[1];
-                    resolve(base64Data);
-                };
-                reader.readAsDataURL(file);
-            });
-            
-            // Upload to ImgBB
-            const formData = new FormData();
-            formData.append('key', IMGBB_API_KEY);
-            formData.append('image', base64);
-            formData.append('name', file.name);
-            
-            const response = await fetch('https://api.imgbb.com/1/upload', {
+
+            progressFill.style.width = '90%';
+            progressLabel.textContent = 'Saving to gallery...';
+
+            const res = await fetch('/api/load', {
                 method: 'POST',
-                body: formData
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ images: uploaded })
             });
-            
-            if (!response.ok) {
-                throw new Error(`ImgBB upload failed: ${response.status}`);
+
+            if (!res.ok) {
+                const err = await res.json();
+                throw new Error(err.error || 'Failed to save to gallery');
             }
-            
-            const data = await response.json();
-            
-            if (!data.success) {
-                throw new Error(`ImgBB error: ${data.error?.message || 'Unknown error'}`);
-            }
-            
-            // Return the direct image URL
-            return data.data.url;
-        }
-        
-        // Show status message
-        function showStatus(message, type) {
-            statusMessage.textContent = message;
-            statusMessage.className = `status-message ${type}`;
-            statusMessage.style.display = 'block';
-            
+
+            progressFill.style.width = '100%';
+            progressLabel.textContent = 'Done';
+
+            showStatus(`${selectedFiles.length} photo${selectedFiles.length > 1 ? 's' : ''} uploaded successfully.`, 'success');
+
             setTimeout(() => {
-                statusMessage.style.display = 'none';
-            }, 5000);
+                clearSelection();
+                setTimeout(() => window.location.href = 'index.html', 1500);
+            }, 800);
+
+        } catch (err) {
+            showStatus('Upload failed: ' + err.message, 'error');
+            progressWrap.style.display = 'none';
         }
-    </script>
+    }
+
+    async function uploadToImgBB(file) {
+        const base64 = await new Promise(res => {
+            const r = new FileReader();
+            r.onload = e => res(e.target.result.split(',')[1]);
+            r.readAsDataURL(file);
+        });
+
+        const fd = new FormData();
+        fd.append('key', IMGBB_API_KEY);
+        fd.append('image', base64);
+        fd.append('name', file.name);
+
+        const resp = await fetch('https://api.imgbb.com/1/upload', { method: 'POST', body: fd });
+        if (!resp.ok) throw new Error(`ImgBB error ${resp.status}`);
+        const data = await resp.json();
+        if (!data.success) throw new Error(data.error?.message || 'ImgBB unknown error');
+        return data.data.url;
+    }
+
+    function showStatus(msg, type) {
+        statusBar.textContent = msg;
+        statusBar.className = 'status-bar ' + type;
+        statusBar.style.display = 'block';
+    }
+
+    function hideStatus() {
+        statusBar.style.display = 'none';
+        progressWrap.style.display = 'none';
+        progressFill.style.width = '0%';
+    }
+</script>
+
 </body>
-</html> 
+</html>
