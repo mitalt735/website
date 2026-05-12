@@ -3,24 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload — Lukas Tonkin</title>
+    <title>Upload — Antonio Spagnuolo</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep:       #0a110d;
-            --bg-mid:        #0f1a12;
-            --bg-card:       #131f16;
-            --border:        rgba(74, 130, 74, 0.18);
-            --border-bright: rgba(100, 180, 100, 0.35);
-            --green-1:       #2d6a2d;
-            --green-2:       #3d8b3d;
-            --green-accent:  #5aad5a;
-            --green-bright:  #7ecf7e;
-            --text-primary:  #e8f0e8;
-            --text-muted:    rgba(200, 220, 200, 0.6);
-            --text-dim:      rgba(160, 190, 160, 0.45);
-            --error:         rgba(220, 80, 80, 0.85);
-            --success:       rgba(80, 180, 100, 0.85);
+            --bg-deep:       #00152b;
+            --bg-mid:        #00203f;
+            --bg-card:       #002347;
+            --border:        rgba(255, 203, 5, 0.15);
+            --border-bright: rgba(255, 203, 5, 0.4);
+            --maize:         #FFCB05;
+            --maize-dim:     #c99d00;
+            --maize-pale:    rgba(255, 203, 5, 0.1);
+            --blue-dark:     #00274C;
+            --text-primary:  #f0f4ff;
+            --text-muted:    rgba(210, 225, 255, 0.55);
+            --text-dim:      rgba(170, 195, 230, 0.35);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,26 +36,26 @@
             content: '';
             position: fixed;
             inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
             pointer-events: none;
             z-index: 0;
-            opacity: 0.6;
+            opacity: 0.5;
         }
 
         body::after {
             content: '';
             position: fixed;
-            bottom: -20%;
-            right: -10%;
-            width: 55%;
-            height: 55%;
-            background: radial-gradient(ellipse, rgba(45, 106, 45, 0.1) 0%, transparent 70%);
+            bottom: -25%;
+            left: -15%;
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(ellipse, rgba(255, 203, 5, 0.05) 0%, transparent 70%);
             pointer-events: none;
             z-index: 0;
         }
 
         .page-wrapper {
-            max-width: 720px;
+            max-width: 700px;
             margin: 0 auto;
             padding: 60px 30px 80px;
             position: relative;
@@ -69,30 +67,39 @@
             display: flex;
             align-items: flex-end;
             justify-content: space-between;
-            margin-bottom: 64px;
-            padding-bottom: 32px;
+            margin-bottom: 60px;
+            padding-bottom: 28px;
             border-bottom: 1px solid var(--border);
             animation: fadeUp 0.6s ease both;
+        }
+
+        .name-block::before {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 3px;
+            background: var(--maize);
+            margin-bottom: 14px;
         }
 
         .name-block h1 {
             font-family: 'Playfair Display', serif;
             font-weight: 900;
-            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-size: clamp(1.8rem, 5vw, 3rem);
             line-height: 0.95;
             letter-spacing: -0.5px;
         }
 
         .name-block h1 span {
             display: block;
-            color: var(--green-bright);
+            color: var(--maize);
         }
 
         .name-block .tagline {
-            margin-top: 14px;
-            font-size: 0.82rem;
+            margin-top: 12px;
+            font-size: 0.78rem;
             color: var(--text-muted);
-            letter-spacing: 0.12em;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
         }
 
@@ -102,17 +109,18 @@
             gap: 8px;
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.8rem;
-            letter-spacing: 0.1em;
+            font-size: 0.76rem;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
             transition: color 0.2s;
+            white-space: nowrap;
         }
 
-        .back-link:hover { color: var(--green-bright); }
+        .back-link:hover { color: var(--maize); }
 
         .back-link svg {
-            width: 14px;
-            height: 14px;
+            width: 13px;
+            height: 13px;
             stroke: currentColor;
             fill: none;
             stroke-width: 2;
@@ -120,11 +128,11 @@
 
         /* ── SECTION LABEL ── */
         .section-label {
-            font-size: 0.72rem;
-            letter-spacing: 0.2em;
+            font-size: 0.7rem;
+            letter-spacing: 0.22em;
             text-transform: uppercase;
-            color: var(--green-accent);
-            margin-bottom: 24px;
+            color: var(--maize);
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
             gap: 14px;
@@ -141,64 +149,60 @@
         .drop-zone {
             border: 1px dashed var(--border-bright);
             border-radius: 2px;
-            padding: 64px 40px;
+            padding: 60px 40px;
             text-align: center;
             cursor: pointer;
             transition: background 0.3s, border-color 0.3s;
             background: var(--bg-card);
-            position: relative;
             animation: fadeUp 0.6s 0.1s ease both;
         }
 
         .drop-zone:hover,
         .drop-zone.drag-over {
-            background: rgba(45, 106, 45, 0.08);
-            border-color: var(--green-accent);
+            background: var(--maize-pale);
+            border-color: var(--maize);
         }
 
-        .drop-zone input[type="file"] {
-            display: none;
-        }
+        .drop-zone input[type="file"] { display: none; }
 
         .drop-icon {
-            width: 48px;
-            height: 48px;
-            stroke: var(--green-accent);
+            width: 44px;
+            height: 44px;
+            stroke: var(--maize);
             fill: none;
             stroke-width: 1.5;
-            margin: 0 auto 20px;
+            margin: 0 auto 18px;
             display: block;
+            opacity: 0.8;
         }
 
         .drop-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             margin-bottom: 8px;
             color: var(--text-primary);
         }
 
         .drop-sub {
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             color: var(--text-dim);
-            line-height: 1.7;
+            line-height: 1.8;
         }
 
-        .drop-sub strong {
-            color: var(--green-bright);
-            font-weight: 500;
-        }
+        .drop-sub strong { color: var(--maize); font-weight: 500; }
 
-        /* ── PREVIEW GRID ── */
+        /* ── PREVIEW ── */
         .preview-section {
             display: none;
+            margin-top: 36px;
             animation: fadeUp 0.4s ease both;
         }
 
         .preview-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 3px;
-            margin-bottom: 28px;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 4px;
+            margin-bottom: 24px;
         }
 
         .preview-item {
@@ -213,7 +217,7 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            filter: brightness(0.85);
+            filter: brightness(0.82);
             transition: filter 0.25s;
         }
 
@@ -221,11 +225,11 @@
 
         .preview-item .remove-btn {
             position: absolute;
-            top: 6px;
-            right: 6px;
-            background: rgba(0,0,0,0.65);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: rgba(255,255,255,0.8);
+            top: 5px;
+            right: 5px;
+            background: rgba(0, 20, 43, 0.75);
+            border: 1px solid rgba(255,203,5,0.35);
+            color: var(--maize);
             border-radius: 2px;
             width: 26px;
             height: 26px;
@@ -234,32 +238,33 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.2s, color 0.2s;
+            transition: background 0.2s;
             line-height: 1;
         }
 
         .preview-item .remove-btn:hover {
-            background: rgba(200,60,60,0.8);
+            background: rgba(180, 40, 40, 0.75);
+            border-color: rgba(255,100,100,0.4);
             color: #fff;
         }
 
         /* ── ACTIONS ── */
         .actions {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
         .btn {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            padding: 12px 28px;
+            gap: 9px;
+            padding: 12px 26px;
             border-radius: 2px;
             font-family: 'DM Sans', sans-serif;
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             font-weight: 500;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
             cursor: pointer;
             border: none;
@@ -270,11 +275,11 @@
         .btn:active { transform: scale(0.98); }
 
         .btn-primary {
-            background: var(--green-1);
-            color: #fff;
+            background: var(--maize);
+            color: var(--blue-dark);
         }
 
-        .btn-primary:hover { background: var(--green-2); }
+        .btn-primary:hover { background: #ffd633; }
 
         .btn-ghost {
             background: transparent;
@@ -283,52 +288,52 @@
         }
 
         .btn-ghost:hover {
-            background: rgba(255,255,255,0.04);
+            background: var(--maize-pale);
             color: var(--text-primary);
-            border-color: rgba(255,255,255,0.25);
+            border-color: var(--maize);
         }
 
         .btn svg {
-            width: 14px;
-            height: 14px;
+            width: 13px;
+            height: 13px;
             stroke: currentColor;
             fill: none;
             stroke-width: 2;
         }
 
-        /* ── STATUS BAR ── */
+        /* ── STATUS ── */
         .status-bar {
             display: none;
-            margin-top: 20px;
-            padding: 14px 18px;
+            margin-top: 18px;
+            padding: 13px 16px;
             border-radius: 2px;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             letter-spacing: 0.03em;
             border-left: 3px solid;
         }
 
         .status-bar.success {
-            background: rgba(45, 106, 45, 0.15);
-            border-color: var(--green-accent);
-            color: var(--green-bright);
+            background: rgba(255, 203, 5, 0.08);
+            border-color: var(--maize);
+            color: var(--maize);
         }
 
         .status-bar.error {
-            background: rgba(180, 50, 50, 0.12);
-            border-color: rgba(200, 80, 80, 0.6);
-            color: rgba(240, 140, 140, 0.9);
+            background: rgba(200, 50, 50, 0.1);
+            border-color: rgba(220, 80, 80, 0.6);
+            color: rgba(255, 140, 140, 0.9);
         }
 
         /* ── PROGRESS ── */
         .progress-wrap {
             display: none;
-            margin-top: 20px;
+            margin-top: 18px;
         }
 
         .progress-label {
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
-            letter-spacing: 0.06em;
+            letter-spacing: 0.07em;
             margin-bottom: 8px;
         }
 
@@ -341,19 +346,19 @@
 
         .progress-fill {
             height: 100%;
-            background: var(--green-accent);
+            background: var(--maize);
             width: 0%;
             transition: width 0.4s ease;
         }
 
         /* ── FOOTER ── */
         footer {
-            margin-top: 70px;
-            padding-top: 28px;
+            margin-top: 60px;
+            padding-top: 24px;
             border-top: 1px solid var(--border);
-            font-size: 0.74rem;
+            font-size: 0.72rem;
             color: var(--text-dim);
-            letter-spacing: 0.06em;
+            letter-spacing: 0.07em;
             text-align: center;
         }
 
@@ -365,20 +370,25 @@
 
         /* ── RESPONSIVE ── */
         @media (max-width: 600px) {
-            .page-wrapper { padding: 36px 18px 60px; }
+            .page-wrapper { padding: 30px 16px 60px; }
 
             header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 20px;
-                margin-bottom: 44px;
+                gap: 18px;
+                margin-bottom: 40px;
             }
 
             .drop-zone { padding: 44px 20px; }
 
             .actions { flex-direction: column; }
-
             .btn { justify-content: center; }
+
+            .preview-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 380px) {
+            .preview-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
@@ -388,7 +398,7 @@
 
     <header>
         <div class="name-block">
-            <h1>Lukas<span>Tonkin</span></h1>
+            <h1>Antonio<span>Spagnuolo</span></h1>
             <p class="tagline">Upload Photos</p>
         </div>
         <a href="index.html" class="back-link">
@@ -397,8 +407,8 @@
         </a>
     </header>
 
-    <!-- Drop Zone -->
     <p class="section-label">Select Files</p>
+
     <div class="drop-zone" id="dropZone">
         <svg class="drop-icon" viewBox="0 0 24 24">
             <polyline points="16 16 12 12 8 16"/>
@@ -410,9 +420,8 @@
         <input type="file" id="fileInput" multiple accept="image/*">
     </div>
 
-    <!-- Preview -->
-    <div class="preview-section" id="previewSection" style="margin-top: 40px;">
-        <p class="section-label">Selected <span id="selectedCount">0</span> photo(s)</p>
+    <div class="preview-section" id="previewSection">
+        <p class="section-label" style="margin-top: 36px;">Selected &nbsp;<span id="selectedCount">0</span>&nbsp; photo(s)</p>
         <div class="preview-grid" id="previewGrid"></div>
 
         <div class="actions">
@@ -425,38 +434,33 @@
 
         <div class="progress-wrap" id="progressWrap">
             <p class="progress-label" id="progressLabel">Uploading...</p>
-            <div class="progress-track">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
+            <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
         </div>
 
         <div class="status-bar" id="statusBar"></div>
     </div>
 
-    <footer>Lukas Tonkin &mdash; Gallery</footer>
+    <footer>Antonio Spagnuolo &mdash; Gallery</footer>
 </div>
 
 <script>
     const IMGBB_API_KEY = 'd78c0a0f2121c9246f775961d0cb0256';
     let selectedFiles = [];
 
-    const dropZone    = document.getElementById('dropZone');
-    const fileInput   = document.getElementById('fileInput');
-    const previewSec  = document.getElementById('previewSection');
-    const previewGrid = document.getElementById('previewGrid');
-    const statusBar   = document.getElementById('statusBar');
+    const dropZone     = document.getElementById('dropZone');
+    const fileInput    = document.getElementById('fileInput');
+    const previewSec   = document.getElementById('previewSection');
+    const previewGrid  = document.getElementById('previewGrid');
+    const statusBar    = document.getElementById('statusBar');
     const progressWrap = document.getElementById('progressWrap');
     const progressFill = document.getElementById('progressFill');
-    const progressLabel = document.getElementById('progressLabel');
-    const selectedCount = document.getElementById('selectedCount');
+    const progressLabel= document.getElementById('progressLabel');
+    const selectedCount= document.getElementById('selectedCount');
 
     dropZone.addEventListener('click', () => fileInput.click());
     fileInput.addEventListener('change', e => handleFiles(e.target.files));
 
-    dropZone.addEventListener('dragover', e => {
-        e.preventDefault();
-        dropZone.classList.add('drag-over');
-    });
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
     dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
     dropZone.addEventListener('drop', e => {
         e.preventDefault();
@@ -466,31 +470,18 @@
 
     function handleFiles(files) {
         const valid = Array.from(files).filter(f => {
-            if (!f.type.startsWith('image/')) {
-                showStatus('Only image files are allowed.', 'error');
-                return false;
-            }
-            if (f.size > 5 * 1024 * 1024) {
-                showStatus(`${f.name} exceeds the 5 MB limit.`, 'error');
-                return false;
-            }
+            if (!f.type.startsWith('image/')) { showStatus('Only image files are allowed.', 'error'); return false; }
+            if (f.size > 5 * 1024 * 1024) { showStatus(`${f.name} exceeds the 5 MB limit.`, 'error'); return false; }
             return true;
         });
-        if (valid.length) {
-            selectedFiles = [...selectedFiles, ...valid];
-            renderPreview();
-        }
+        if (valid.length) { selectedFiles = [...selectedFiles, ...valid]; renderPreview(); }
     }
 
     function renderPreview() {
         previewGrid.innerHTML = '';
         selectedCount.textContent = selectedFiles.length;
 
-        if (selectedFiles.length === 0) {
-            previewSec.style.display = 'none';
-            return;
-        }
-
+        if (selectedFiles.length === 0) { previewSec.style.display = 'none'; return; }
         previewSec.style.display = 'block';
 
         selectedFiles.forEach((file, i) => {
@@ -508,10 +499,7 @@
         });
     }
 
-    function removeFile(i) {
-        selectedFiles.splice(i, 1);
-        renderPreview();
-    }
+    function removeFile(i) { selectedFiles.splice(i, 1); renderPreview(); }
 
     function clearSelection() {
         selectedFiles = [];
@@ -521,10 +509,7 @@
     }
 
     async function uploadPhotos() {
-        if (!selectedFiles.length) {
-            showStatus('No photos selected.', 'error');
-            return;
-        }
+        if (!selectedFiles.length) { showStatus('No photos selected.', 'error'); return; }
 
         progressWrap.style.display = 'block';
         hideStatus();
@@ -533,8 +518,7 @@
             const uploaded = [];
 
             for (let i = 0; i < selectedFiles.length; i++) {
-                const pct = Math.round((i / selectedFiles.length) * 100);
-                progressFill.style.width = pct + '%';
+                progressFill.style.width = Math.round((i / selectedFiles.length) * 100) + '%';
                 progressLabel.textContent = `Uploading ${i + 1} of ${selectedFiles.length}...`;
 
                 const url = await uploadToImgBB(selectedFiles[i]);
