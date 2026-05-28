@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wolverine Gazette</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=UnifrakturMaguntia&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:        #f5f0e8;
+            --paper:     #faf7f0;
+            --ink:       #1a1208;
+            --ink-mid:   #3d2f1a;
+            --ink-muted: #6b5a42;
+            --rule:      #c8b89a;
+            --maize:     #FFCB05;
+            --blue:      #00274C;
+            --accent:    #8b1a1a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            background-image:
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            color: var(--ink);
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+        }
+
+        .page {
+            max-width: 860px;
+            margin: 0 auto;
+            background: var(--paper);
+            box-shadow: 0 4px 40px rgba(0,0,0,0.18);
+            padding: 0 0 60px;
+        }
+
+        /* ── NAMEPLATE ── */
+        .nameplate {
+            background: var(--blue);
+            padding: 18px 40px 16px;
+            text-align: center;
+            border-bottom: 5px solid var(--maize);
+        }
+
+        .nameplate-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .nameplate-meta {
+            font-size: 0.68rem;
+            color: rgba(255,203,5,0.65);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .masthead {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: clamp(2.8rem, 8vw, 5rem);
+            color: var(--maize);
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        .nameplate-tagline {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 0.82rem;
+            color: rgba(255,203,5,0.55);
+            letter-spacing: 0.15em;
+            margin-top: 6px;
+        }
+
+        /* ── SECTION TAG ── */
+        .section-tag {
+            background: var(--maize);
+            color: var(--blue);
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            display: inline-block;
+            margin: 28px 40px 0;
+        }
+
+        /* ── HEADLINE BLOCK ── */
+        .headline-block {
+            padding: 18px 40px 0;
+            border-bottom: 2px solid var(--ink);
+            padding-bottom: 20px;
+        }
+
+        .kicker {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .headline {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: clamp(1.9rem, 5vw, 3.2rem);
+            line-height: 1.08;
+            color: var(--ink);
+            margin-bottom: 12px;
+        }
+
+        .deck {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--ink-mid);
+            line-height: 1.5;
+            border-left: 3px solid var(--maize);
+            padding-left: 14px;
+            margin-top: 14px;
+        }
+
+        .byline-row {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid var(--rule);
+        }
+
+        .byline {
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+        }
+
+        .byline strong { color: var(--ink); font-weight: 600; }
+
+        .byline-dot {
+            width: 3px; height: 3px;
+            background: var(--rule);
+            border-radius: 50%;
+        }
+
+        /* ── BODY LAYOUT ── */
+        .article-body {
+            padding: 24px 40px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        .article-text { grid-column: 1; }
+
+        .drop-cap::first-letter {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5em;
+            font-weight: 900;
+            float: left;
+            line-height: 0.78;
+            padding-right: 8px;
+            padding-top: 6px;
+            color: var(--blue);
+        }
+
+        p.body-copy {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.92rem;
+            line-height: 1.75;
+            color: var(--ink-mid);
+            margin-bottom: 14px;
+        }
+
+        .pull-quote {
+            border-top: 3px solid var(--ink);
+            border-bottom: 1px solid var(--ink);
+            padding: 16px 0 14px;
+            margin: 20px 0;
+        }
+
+        .pull-quote p {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            line-height: 1.4;
+            color: var(--ink);
+        }
+
+        .pull-quote cite {
+            display: block;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+            margin-top: 8px;
+            font-style: normal;
+        }
+
+        /* ── PHOTO COLUMN ── */
+        .photo-col { grid-column: 2; }
+
+        .photo-frame {
+            position: relative;
+            background: #1a1208;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            display: block;
+            filter: sepia(12%) contrast(1.04);
+        }
+
+        .photo-caption {
+            padding: 10px 12px;
+            background: var(--ink);
+        }
+
+        .photo-caption p {
+            font-size: 0.7rem;
+            color: rgba(250,247,240,0.7);
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .photo-caption strong {
+            color: var(--maize);
+            font-style: normal;
+        }
+
+        /* Decorative rule */
+        .rule-ornament {
+            text-align: center;
+            color: var(--rule);
+            font-size: 1.1rem;
+            letter-spacing: 0.5em;
+            margin: 22px 0 18px;
+        }
+
+        /* ── FOOTER STRIP ── */
+        .article-footer {
+            margin: 30px 40px 0;
+            padding-top: 18px;
+            border-top: 3px double var(--rule);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+
+        .tag {
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+            border: 1px solid var(--rule);
+            padding: 3px 9px;
+            border-radius: 1px;
+        }
+
+        .back-link {
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--blue);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid var(--maize);
+            padding-bottom: 1px;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover { color: var(--accent); }
+
+        /* ── ANIMATION ── */
+        .page { animation: fadeUp 0.6s ease both; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 640px) {
+            .nameplate { padding: 16px 20px 14px; }
+            .nameplate-top { flex-direction: column; gap: 4px; }
+            .section-tag { margin: 20px 20px 0; }
+            .headline-block { padding: 16px 20px 18px; }
+            .article-body { grid-template-columns: 1fr; padding: 20px 20px 0; gap: 20px; }
+            .photo-col { grid-column: 1; }
+            .article-footer { flex-direction: column; gap: 16px; align-items: flex-start; padding: 16px 20px 0; margin: 20px 20px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page">
+
+    <!-- Nameplate -->
+    <div class="nameplate">
+        <div class="nameplate-top">
+            <span class="nameplate-meta">Est. 2024</span>
+            <span class="nameplate-meta" id="dateLine"></span>
+            <span class="nameplate-meta">Social Desk</span>
+        </div>
+        <div class="masthead">The Wolverine Gazette</div>
+        <div class="nameplate-tagline">"All the news that's fit to print — and then some"</div>
+    </div>
+
+    <!-- Section tag -->
+    <span class="section-tag">Social Scene</span>
+
+    <!-- Headline -->
+    <div class="headline-block">
+        <p class="kicker">Party Report &nbsp;&mdash;&nbsp; Exclusive</p>
+        <h1 class="headline">Antonio Spagnuolo &amp; Gurleen Light Up the Party Scene in Unforgettable Night Out</h1>
+        <p class="deck">Sources confirm the pair were the life of the party, drawing cameras from across the room in what onlookers are already calling "the collab of the year."</p>
+        <div class="byline-row">
+            <span class="byline">By <strong>The Gazette Staff</strong></span>
+            <div class="byline-dot"></div>
+            <span class="byline" id="pubDate"></span>
+            <div class="byline-dot"></div>
+            <span class="byline">2 min read</span>
+        </div>
+    </div>
+
+    <!-- Body -->
+    <div class="article-body">
+
+        <div class="article-text">
+            <p class="body-copy drop-cap">In what party-goers are already describing as one of the most talked-about social events of the season, Antonio Spagnuolo and Gurleen made a joint appearance that had the entire room buzzing. The duo arrived separately but quickly found each other amid the crowd, and from that moment on, the two were inseparable for the rest of the evening.</p>
+
+            <p class="body-copy">Witnesses at the scene reported that the pair spent much of the night deep in conversation, laughing, and making the rounds — stopping only long enough to pose for a series of photos that, according to those present, "absolutely had to be documented."</p>
+
+            <div class="pull-quote">
+                <p>"Every time you looked up, there they were — grinning like they'd known each other for years."</p>
+                <cite>— Unnamed partygoer, speaking on condition of anonymity</cite>
+            </div>
+
+            <p class="body-copy">The photographs, taken throughout the night, quickly circulated among attendees. Friends of both parties have since confirmed that the evening was, by all accounts, a resounding success — with the photos serving as permanent evidence of a genuinely great time.</p>
+
+            <div class="rule-ornament">&#x2726; &nbsp; &#x2726; &nbsp; &#x2726;</div>
+
+            <p class="body-copy">Neither Spagnuolo nor Gurleen has issued an official statement, though sources close to the pair describe the mood as "very good vibes only." The Gazette will continue to monitor developments as they unfold.</p>
+
+            <p class="body-copy" style="font-style:italic; color: var(--ink-muted); font-size:0.82rem;">This is a developing story. Further updates pending confirmation from relevant parties.</p>
+        </div>
+
+        <div class="photo-col">
+            <div class="photo-frame">
+                <img src="https://i.ibb.co/kV3mGmsq/202-C6-DB5-AC0-D-4-FB9-931-D-E5671-AACDAE1-png.png" alt="Antonio Spagnuolo and Gurleen at the party">
+                <div class="photo-caption">
+                    <p><strong>CAPTURED:</strong> Antonio Spagnuolo and Gurleen, photographed together during the evening's festivities. The image has since been described by friends as "iconic."</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="article-footer">
+        <div class="tags">
+            <span class="tag">Social Scene</span>
+            <span class="tag">Antonio Spagnuolo</span>
+            <span class="tag">Gurleen</span>
+            <span class="tag">Party</span>
+        </div>
+        <a href="index.html" class="back-link">Back to Gallery</a>
+    </div>
+
+</div>
+
+<script>
+    const now = new Date();
+    const opts = { year: 'numeric', month: 'long', day: 'numeric' };
+    const dateStr = now.toLocaleDateString('en-US', opts).toUpperCase();
+    document.getElementById('dateLine').textContent = dateStr;
+    document.getElementById('pubDate').textContent = now.toLocaleDateString('en-US', opts);
+</script>
+
+</body>
+</html>
